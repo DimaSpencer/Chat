@@ -10,7 +10,7 @@ using static Client.BL.Model.ClientModel;
 
 namespace Client.BL.Controller
 {
-    public class ClientController : IClientController
+    public class ClientController
     {
 
         public List<Model.ClientModel> clients = new List<Model.ClientModel>();
@@ -25,8 +25,8 @@ namespace Client.BL.Controller
                 client.NetworkStream = client.TcpClient.GetStream();
                 clients.Add(client);
 
-                client.cancelTokenSource = new CancellationTokenSource();
-                client.token = client.cancelTokenSource.Token;
+                client.CancelTokenSource = new CancellationTokenSource();
+                client.Token = client.CancelTokenSource.Token;
                 ReceiveMessages(client);
 
                 return client.UserID;
@@ -40,7 +40,7 @@ namespace Client.BL.Controller
         {
             var client = clients.FirstOrDefault(u => u.UserID == userID);
             clients.Remove(client);
-            client.cancelTokenSource.Cancel();
+            client.CancelTokenSource.Cancel();
         }
         public void SendMessage(string message, int userID)
         {
@@ -54,7 +54,7 @@ namespace Client.BL.Controller
         }
         public void AddCallBackMethod(int userID, CallBackMethod method)
         {
-            clients.FirstOrDefault(c => c.UserID == userID).callbackMethods += method; //TODO: тут поигратся с отличием = или +=
+            clients.FirstOrDefault(c => c.UserID == userID).CallbackMethods += method;
         }
         async private void ReceiveMessages(Model.ClientModel client)
         {
@@ -62,14 +62,13 @@ namespace Client.BL.Controller
             {
                 while (true)
                 {
-                    if (client.token.IsCancellationRequested)
+                    if (client.Token.IsCancellationRequested)
                     {
                         Console.WriteLine("Чтение прервано");
                         return;
                     }
                     byte[] buffer = new byte[256];
                     client.NetworkStream.Read(buffer);
-                    buffer = buffer.Where(b => b != 0).ToArray();
                     string message = Encoding.UTF8.GetString(buffer);
 
                     CallingMessageForAllUsers(message);
@@ -82,7 +81,7 @@ namespace Client.BL.Controller
         {
             foreach (var client in clients)
             {
-                client.callbackMethods.Invoke(message);
+                client.CallbackMethods.Invoke(message);
             }
         }
     }

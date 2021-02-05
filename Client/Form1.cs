@@ -24,7 +24,13 @@ namespace Client
         public int Port;
         public ClientController ClientController;
         private bool _connected;
-        private void CallBackMethod(string message) => chat.Items.Add(message);
+        private void ShowMessage(string message)
+        {
+            if (InvokeRequired)
+                Invoke((Action<string>)ShowMessage, message);
+            else
+                chat.Items.Add(message);
+        } /*=> chat.Items.Add(message);*/
 
         private void connectButton_Click(object sender, EventArgs e)
         {
@@ -38,7 +44,7 @@ namespace Client
                 {
                     ClientController = new ClientController();
                     UserID = ClientController.Connect(UserName, IPAddress, Port);
-                    ClientController.AddCallBackMethod(UserID, CallBackMethod);
+                    ClientController.AddCallBackMethod(UserID, ShowMessage);
                 }
                 catch (Exception ex)
                 {

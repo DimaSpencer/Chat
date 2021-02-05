@@ -14,8 +14,12 @@ namespace Chat
     {
         static void Main(string[] args)
         {
-            ServerHost server = new ServerHost();
+            ServerLogic server = new ServerLogic();
             server.Start();
+            if (Console.ReadLine().ToLower() == "stop")
+            {
+                server.Stop();
+            }
         }
     }
 }

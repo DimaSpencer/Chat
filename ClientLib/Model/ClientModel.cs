@@ -19,10 +19,10 @@ namespace Client.BL.Model
         public NetworkStream NetworkStream { get; set; }
 
         public delegate void CallBackMethod(string message);
-        public CallBackMethod callbackMethods;
+        public CallBackMethod CallbackMethods { get; set; }
 
-        public CancellationTokenSource cancelTokenSource { get; set; }
-        public CancellationToken token { get; set; }
+        public CancellationTokenSource CancelTokenSource { get; set; }
+        public CancellationToken Token { get; set; }
 
         public ClientModel(string userName)
         {

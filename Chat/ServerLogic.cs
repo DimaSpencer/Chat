@@ -4,32 +4,48 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Server
 {
-    class ServerHost
-    {
-        public TcpListener ServerSocket { get; set; }
-        public List<TcpClient> Users { get; set; }
 
-        public ServerHost()
+    //1.Сделать так чтобы пользователь не смог отправлять пустые сообщения
+    //2.Сделать кастомный клас ConnectedUsers в котором будет свой CancellationTokenSource TcpClient UserName и в случай чего можна было бы через этот токен остановить асинхронный метод юзера на чтение информации
+    class ServerLogic
+    {
+        public string IP { get; set; } = "127.0.0.1";
+        public int Port { get; set; } = 6060;
+        public TcpListener ServerSocket { get; set; }
+        public List<TcpClient> ConnectedUsers { get; set; }
+
+        public ServerLogic()
         {
-            ServerSocket = new TcpListener(IPAddress.Any, 6060);
-            Users = new List<TcpClient>();
+            ServerSocket = new TcpListener(IPAddress.Parse(IP), Port);
+            ConnectedUsers = new List<TcpClient>();
 
             ServerSocket.Start();
             Console.WriteLine("Сервер запущен");
         }
         public void Start()
         {
+
             while (true)
             {
                 TcpClient tcpClient = ServerSocket.AcceptTcpClient();//тут должны получить от пользователя имя при его подключении
                 Console.WriteLine("Новый пользователь подключился");
-                Users.Add(tcpClient);
+                ConnectedUsers.Add(tcpClient);
                 ListenClient(tcpClient);
             }
+        }
+        public void Stop()
+        {
+            foreach (var client in ConnectedUsers)
+            {
+                client.Close();
+            }
+            ConnectedUsers.Clear();
+            ServerSocket.Stop();
         }
         async private void ListenClient(TcpClient tcpClient)
         {
@@ -52,11 +68,10 @@ namespace Server
                         else
                         {
                             tcpClient.Close();
-                            Users.Remove(tcpClient);
+                            ConnectedUsers.Remove(tcpClient);
                             Console.WriteLine("Соеденение с пользователем разорвано");
                         }
-                        System.Threading.Thread.Sleep(400);
-
+                        Thread.Sleep(400);
                     }
                 }
                 catch (Exception)
@@ -72,7 +87,7 @@ namespace Server
             {
                 Console.WriteLine("В чат отправлено сообщение " + message);
                 byte[] buffer = Encoding.UTF8.GetBytes(message);
-                foreach (var user in Users)
+                foreach (var user in ConnectedUsers)
                 {
                     if (user.Connected)
                     {
