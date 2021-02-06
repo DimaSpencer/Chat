@@ -1,12 +1,4 @@
 ﻿using Server;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Chat
 {
@@ -16,10 +8,6 @@ namespace Chat
         {
             ServerLogic server = new ServerLogic();
             server.Start();
-            if (Console.ReadLine().ToLower() == "stop")
-            {
-                server.Stop();
-            }
         }
     }
 }

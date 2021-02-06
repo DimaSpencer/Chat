@@ -30,6 +30,7 @@ namespace Client.BL.Controller
                 client.CancelTokenSource = new CancellationTokenSource();
                 client.Token = client.CancelTokenSource.Token;
                 ReceiveMessages(client);
+                SendMessage($"Пользователь {userName} подключился к чату.");
 
                 return client.UserID;
             }
@@ -43,16 +44,28 @@ namespace Client.BL.Controller
             var client = _clients.FirstOrDefault(u => u.UserID == userID);
             _clients.Remove(client);
             client.CancelTokenSource.Cancel();
+            SendMessage($"Пользователь {client.UserName} покинул чат.");
         }
-        public void SendMessage(string message, int userID)
+        public void SendMessage(string message, int userID = -1)
         {
             Model.ClientModel client = _clients.FirstOrDefault(u => u.UserID == userID);
-            message.Trim();//удаляем все пробелы в начале и в конце
-            string resultMessage = $"{client.UserName}: {message}";
 
-            byte[] buffer = Encoding.UTF8.GetBytes(resultMessage);
-            client.NetworkStream.Write(buffer);
-            client.NetworkStream.Flush();
+            string resultMessage;
+            if (client == null)
+            {
+                resultMessage = message;
+                var tempModel = new Model.ClientModel("system");
+                ReceiveMessages(tempModel);
+                tempModel.NetworkStream.Write(Encoding.UTF8.GetBytes(resultMessage));
+            }
+            else
+            {
+                message.Trim();
+                resultMessage = $"{client.UserName}: {message}";
+                byte[] buffer = Encoding.UTF8.GetBytes(resultMessage);
+                client?.NetworkStream.Write(buffer);
+                client.NetworkStream.Flush();
+            }
         }
         public void AddCallBackMethod(int userID, CallBackMethod method) //делегат который будет вызывать метод в WindowsForms с взодящим параметром - сообщением
         {
@@ -83,7 +96,7 @@ namespace Client.BL.Controller
         {
             foreach (var client in _clients)
             {
-                client.CallbackMethods.Invoke(message);
+                client?.CallbackMethods?.Invoke(message);
             }
         }
     }
