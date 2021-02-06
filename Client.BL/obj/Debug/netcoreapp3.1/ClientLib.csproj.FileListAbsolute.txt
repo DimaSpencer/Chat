@@ -1,0 +1,13 @@
+C:\Users\Дима\source\repos\Chat\ClientLib\bin\Debug\netcoreapp3.1\Server.exe
+C:\Users\Дима\source\repos\Chat\ClientLib\bin\Debug\netcoreapp3.1\ClientLib.deps.json
+C:\Users\Дима\source\repos\Chat\ClientLib\bin\Debug\netcoreapp3.1\ClientLib.dll
+C:\Users\Дима\source\repos\Chat\ClientLib\bin\Debug\netcoreapp3.1\ClientLib.pdb
+C:\Users\Дима\source\repos\Chat\ClientLib\bin\Debug\netcoreapp3.1\Server.dll
+C:\Users\Дима\source\repos\Chat\ClientLib\bin\Debug\netcoreapp3.1\Server.pdb
+C:\Users\Дима\source\repos\Chat\ClientLib\obj\Debug\netcoreapp3.1\ClientLib.csprojAssemblyReference.cache
+C:\Users\Дима\source\repos\Chat\ClientLib\obj\Debug\netcoreapp3.1\ClientLib.AssemblyInfoInputs.cache
+C:\Users\Дима\source\repos\Chat\ClientLib\obj\Debug\netcoreapp3.1\ClientLib.AssemblyInfo.cs
+C:\Users\Дима\source\repos\Chat\ClientLib\obj\Debug\netcoreapp3.1\ClientLib.csproj.CoreCompileInputs.cache
+C:\Users\Дима\source\repos\Chat\ClientLib\obj\Debug\netcoreapp3.1\ClientLib.csproj.CopyComplete
+C:\Users\Дима\source\repos\Chat\ClientLib\obj\Debug\netcoreapp3.1\ClientLib.dll
+C:\Users\Дима\source\repos\Chat\ClientLib\obj\Debug\netcoreapp3.1\ClientLib.pdb
