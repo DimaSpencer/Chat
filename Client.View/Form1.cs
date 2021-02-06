@@ -59,11 +59,6 @@ namespace Client
                 {
                     ClientController = new ClientController();
                     UserID = ClientController.Connect(UserName, IPAddress, Port);
-                    if (UserID == -1)//если такой пользователь с таким именем уже есть в чате
-                    {
-                        MessageBox.Show("Пользователь с таким именем уже присутствует в чате", "Error", MessageBoxButtons.OK);
-                        return;
-                    }
                     ClientController.AddCallBackMethod(UserID, ShowMessage);
                 }
                 catch (Exception ex)

@@ -15,3 +15,4 @@ C:\Users\Дима\source\repos\Chat\Client.BL\obj\Debug\netcoreapp3.1\Client.BL.
 C:\Users\Дима\source\repos\Chat\Client.BL\obj\Debug\netcoreapp3.1\Client.BL.csproj.CoreCompileInputs.cache
 C:\Users\Дима\source\repos\Chat\Client.BL\obj\Debug\netcoreapp3.1\Client.BL.dll
 C:\Users\Дима\source\repos\Chat\Client.BL\obj\Debug\netcoreapp3.1\Client.BL.pdb
+C:\Users\Дима\source\repos\Chat\Client.BL\obj\Debug\netcoreapp3.1\Client.BL.csprojAssemblyReference.cache

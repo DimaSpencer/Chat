@@ -15,10 +15,6 @@ namespace Client.BL.Controller
         private List<Model.ClientModel> _clients = new List<Model.ClientModel>();
         public int Connect(string userName, string ip, int port)
         {
-            if (_clients.Any(u => u.UserName == userName)) //если найдется подключеный юзер с таким же именем, то мы не конектим его
-            {
-                return -1;
-            }
             Model.ClientModel client = new Model.ClientModel(userName);
             try
             {
@@ -48,7 +44,7 @@ namespace Client.BL.Controller
         {
             Model.ClientModel client = _clients.FirstOrDefault(u => u.UserID == userID);
 
-            message.Trim();
+            message = message.Trim();
             string resultMessage = $"{client.UserName}: {message}";
             byte[] buffer = Encoding.UTF8.GetBytes(resultMessage);
             client?.NetworkStream.Write(buffer);
