@@ -29,7 +29,6 @@ namespace Server
         }
         public void Start()
         {
-
             while (true)
             {
                 TcpClient tcpClient = ServerSocket.AcceptTcpClient();//тут должны получить от пользователя имя при его подключении

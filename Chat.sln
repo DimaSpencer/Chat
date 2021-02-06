@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server", "Chat\Server.cspro
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.BL", "ClientLib\Client.BL.csproj", "{0BC55514-C501-484D-B9A3-4FD34808F200}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientWF.View", "Client\ClientWF.View.csproj", "{7FE7719A-731C-4D3D-996A-990CC6938349}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.View", "Client\Client.View.csproj", "{7FE7719A-731C-4D3D-996A-990CC6938349}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

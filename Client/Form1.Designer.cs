@@ -51,9 +51,9 @@ namespace Client
             // sendButton
             // 
             this.sendButton.Enabled = false;
-            this.sendButton.Location = new System.Drawing.Point(614, 387);
+            this.sendButton.Location = new System.Drawing.Point(614, 356);
             this.sendButton.Name = "sendButton";
-            this.sendButton.Size = new System.Drawing.Size(174, 43);
+            this.sendButton.Size = new System.Drawing.Size(174, 54);
             this.sendButton.TabIndex = 1;
             this.sendButton.Text = "Send";
             this.sendButton.UseVisualStyleBackColor = true;
@@ -75,6 +75,7 @@ namespace Client
             this.nameBox.Size = new System.Drawing.Size(174, 23);
             this.nameBox.TabIndex = 3;
             this.nameBox.Text = "name";
+            this.nameBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.connectButton_KeyDown);
             // 
             // ipBox
             // 
@@ -96,16 +97,17 @@ namespace Client
             // 
             this.messageBox.Enabled = false;
             this.messageBox.Location = new System.Drawing.Point(12, 387);
-            this.messageBox.Multiline = true;
             this.messageBox.Name = "messageBox";
-            this.messageBox.Size = new System.Drawing.Size(596, 43);
+            this.messageBox.Size = new System.Drawing.Size(596, 23);
             this.messageBox.TabIndex = 6;
+            this.messageBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.messageBox_KeyDown);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 445);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(799, 421);
             this.Controls.Add(this.messageBox);
             this.Controls.Add(this.portBox);
             this.Controls.Add(this.ipBox);

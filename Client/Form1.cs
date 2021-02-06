@@ -23,20 +23,35 @@ namespace Client
         public string IPAddress;
         public int Port;
         public ClientController ClientController;
-        private bool _connected;
+        private bool _connected = false;
         private void ShowMessage(string message)
         {
             if (InvokeRequired)
                 Invoke((Action<string>)ShowMessage, message);
             else
                 chat.Items.Add(message);
-        } /*=> chat.Items.Add(message);*/
-
+        }
         private void connectButton_Click(object sender, EventArgs e)
         {
             if (_connected == false)
             {
-                //TODO: тут должна быть проверка входных данных
+                #region ChackInputData
+                if (string.IsNullOrWhiteSpace(nameBox.Text))
+                {
+                    MessageBox.Show("Поле с именем не может быть пустым", "Error", MessageBoxButtons.OK);
+                    return;
+                }
+                if(string.IsNullOrWhiteSpace(ipBox.Text))
+                {
+                    MessageBox.Show("Поле c IP не должно быть пустым", "Error", MessageBoxButtons.OK);
+                    return;
+                }
+                if (string.IsNullOrWhiteSpace(portBox.Text))
+                {
+                    MessageBox.Show("Поле c портом не должно быть пустым", "Error", MessageBoxButtons.OK);
+                    return;
+                }
+                #endregion
                 UserName = nameBox.Text;
                 IPAddress = ipBox.Text;
                 Port = int.Parse(portBox.Text);
@@ -44,6 +59,11 @@ namespace Client
                 {
                     ClientController = new ClientController();
                     UserID = ClientController.Connect(UserName, IPAddress, Port);
+                    if (UserID == -1)//если такой пользователь с таким именем уже есть в чате
+                    {
+                        MessageBox.Show("Пользователь с таким именем уже присутствует в чате", "Error", MessageBoxButtons.OK);
+                        return;
+                    }
                     ClientController.AddCallBackMethod(UserID, ShowMessage);
                 }
                 catch (Exception ex)
@@ -52,6 +72,9 @@ namespace Client
                     return;
                 }
                 connectButton.Text = "Disconnect";
+                nameBox.Enabled = false;
+                ipBox.Enabled = false;
+                portBox.Enabled = false;
                 sendButton.Enabled = true;
                 messageBox.Enabled = true;
                 _connected = true;
@@ -62,18 +85,39 @@ namespace Client
                 chat.Items.Clear();
                 ClientController.Disconnect(UserID);
                 connectButton.Text = "Connect";
+                nameBox.Enabled = true;
+                ipBox.Enabled = true;
+                portBox.Enabled = true;
                 sendButton.Enabled = false;
                 messageBox.Enabled = false;
                 _connected = false;
                 MessageBox.Show("Вы отключились от чата", "Done", MessageBoxButtons.OK);
             }
         }
+        private void connectButton_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                connectButton_Click(sender, e);
+            }
+        }
         private void sendButton_Click(object sender, EventArgs e)
         {
             string message = messageBox.Text;
+            if (string.IsNullOrWhiteSpace(message))
+            {
+                return;
+            }
             messageBox.Text = string.Empty;
 
             ClientController.SendMessage(message, UserID);
+        }
+        private void messageBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                sendButton_Click(sender, e);
+            }
         }
     }
 }

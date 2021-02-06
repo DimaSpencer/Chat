@@ -12,18 +12,20 @@ namespace Client.BL.Controller
 {
     public class ClientController
     {
-
-        public List<Model.ClientModel> clients = new List<Model.ClientModel>();
-
+        private List<Model.ClientModel> _clients = new List<Model.ClientModel>();
         public int Connect(string userName, string ip, int port)
         {
+            if (_clients.FirstOrDefault(u => u.UserName == userName) != null) //если найдется подключеный юзер с таким же именем, то мы не конектим его
+            {
+                return -1;
+            }
             Model.ClientModel client = new Model.ClientModel(userName);
             try
             {
                 client.TcpClient = new TcpClient();
                 client.TcpClient.Connect(IPAddress.Parse(ip), port);
                 client.NetworkStream = client.TcpClient.GetStream();
-                clients.Add(client);
+                _clients.Add(client);
 
                 client.CancelTokenSource = new CancellationTokenSource();
                 client.Token = client.CancelTokenSource.Token;
@@ -38,23 +40,23 @@ namespace Client.BL.Controller
         }
         public void Disconnect(int userID)
         {
-            var client = clients.FirstOrDefault(u => u.UserID == userID);
-            clients.Remove(client);
+            var client = _clients.FirstOrDefault(u => u.UserID == userID);
+            _clients.Remove(client);
             client.CancelTokenSource.Cancel();
         }
         public void SendMessage(string message, int userID)
         {
-            Model.ClientModel client = clients.FirstOrDefault(u => u.UserID == userID);
-
+            Model.ClientModel client = _clients.FirstOrDefault(u => u.UserID == userID);
+            message.Trim();//удаляем все пробелы в начале и в конце
             string resultMessage = $"{client.UserName}: {message}";
-            byte[] buffer = Encoding.UTF8.GetBytes(resultMessage);
 
+            byte[] buffer = Encoding.UTF8.GetBytes(resultMessage);
             client.NetworkStream.Write(buffer);
             client.NetworkStream.Flush();
         }
-        public void AddCallBackMethod(int userID, CallBackMethod method)
+        public void AddCallBackMethod(int userID, CallBackMethod method) //делегат который будет вызывать метод в WindowsForms с взодящим параметром - сообщением
         {
-            clients.FirstOrDefault(c => c.UserID == userID).CallbackMethods += method;
+            _clients.FirstOrDefault(c => c.UserID == userID).CallbackMethods += method;
         }
         async private void ReceiveMessages(Model.ClientModel client)
         {
@@ -77,9 +79,9 @@ namespace Client.BL.Controller
                 }
             });
         }
-        public void CallingMessageForAllUsers(string message)
+        private void CallingMessageForAllUsers(string message)
         {
-            foreach (var client in clients)
+            foreach (var client in _clients)
             {
                 client.CallbackMethods.Invoke(message);
             }
