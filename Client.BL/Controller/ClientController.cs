@@ -15,7 +15,7 @@ namespace Client.BL.Controller
         private List<Model.ClientModel> _clients = new List<Model.ClientModel>();
         public int Connect(string userName, string ip, int port)
         {
-            if (_clients.FirstOrDefault(u => u.UserName == userName) != null) //если найдется подключеный юзер с таким же именем, то мы не конектим его
+            if (_clients.Any(u => u.UserName == userName)) //если найдется подключеный юзер с таким же именем, то мы не конектим его
             {
                 return -1;
             }
@@ -30,7 +30,6 @@ namespace Client.BL.Controller
                 client.CancelTokenSource = new CancellationTokenSource();
                 client.Token = client.CancelTokenSource.Token;
                 ReceiveMessages(client);
-                SendMessage($"Пользователь {userName} подключился к чату.");
 
                 return client.UserID;
             }
@@ -44,28 +43,16 @@ namespace Client.BL.Controller
             var client = _clients.FirstOrDefault(u => u.UserID == userID);
             _clients.Remove(client);
             client.CancelTokenSource.Cancel();
-            SendMessage($"Пользователь {client.UserName} покинул чат.");
         }
-        public void SendMessage(string message, int userID = -1)
+        public void SendMessage(string message, int userID)
         {
             Model.ClientModel client = _clients.FirstOrDefault(u => u.UserID == userID);
 
-            string resultMessage;
-            if (client == null)
-            {
-                resultMessage = message;
-                var tempModel = new Model.ClientModel("system");
-                ReceiveMessages(tempModel);
-                tempModel.NetworkStream.Write(Encoding.UTF8.GetBytes(resultMessage));
-            }
-            else
-            {
-                message.Trim();
-                resultMessage = $"{client.UserName}: {message}";
-                byte[] buffer = Encoding.UTF8.GetBytes(resultMessage);
-                client?.NetworkStream.Write(buffer);
-                client.NetworkStream.Flush();
-            }
+            message.Trim();
+            string resultMessage = $"{client.UserName}: {message}";
+            byte[] buffer = Encoding.UTF8.GetBytes(resultMessage);
+            client?.NetworkStream.Write(buffer);
+            client.NetworkStream.Flush();
         }
         public void AddCallBackMethod(int userID, CallBackMethod method) //делегат который будет вызывать метод в WindowsForms с взодящим параметром - сообщением
         {

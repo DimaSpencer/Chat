@@ -7,3 +7,11 @@ C:\Users\Дима\source\repos\Chat\ClientLib\obj\Debug\netcoreapp3.1\Client.BL.
 C:\Users\Дима\source\repos\Chat\ClientLib\obj\Debug\netcoreapp3.1\Client.BL.csproj.CoreCompileInputs.cache
 C:\Users\Дима\source\repos\Chat\ClientLib\obj\Debug\netcoreapp3.1\Client.BL.dll
 C:\Users\Дима\source\repos\Chat\ClientLib\obj\Debug\netcoreapp3.1\Client.BL.pdb
+C:\Users\Дима\source\repos\Chat\Client.BL\bin\Debug\netcoreapp3.1\Client.BL.deps.json
+C:\Users\Дима\source\repos\Chat\Client.BL\bin\Debug\netcoreapp3.1\Client.BL.dll
+C:\Users\Дима\source\repos\Chat\Client.BL\bin\Debug\netcoreapp3.1\Client.BL.pdb
+C:\Users\Дима\source\repos\Chat\Client.BL\obj\Debug\netcoreapp3.1\Client.BL.AssemblyInfoInputs.cache
+C:\Users\Дима\source\repos\Chat\Client.BL\obj\Debug\netcoreapp3.1\Client.BL.AssemblyInfo.cs
+C:\Users\Дима\source\repos\Chat\Client.BL\obj\Debug\netcoreapp3.1\Client.BL.csproj.CoreCompileInputs.cache
+C:\Users\Дима\source\repos\Chat\Client.BL\obj\Debug\netcoreapp3.1\Client.BL.dll
+C:\Users\Дима\source\repos\Chat\Client.BL\obj\Debug\netcoreapp3.1\Client.BL.pdb
